@@ -1,0 +1,33 @@
+pipeline {
+    // Na sessão agent é informado em qual node será executado o pipeline, any executa em qual node.
+    agent any
+    
+    // Variáveis
+    WORKSPACE_DIR      = pwd()
+    URL_SONARQUBE      = 'http://localhost:9000'
+
+    // Estágios
+    stages {
+        stage ('Checkout do projeto')
+            steps {
+                echo 'Checkout do projeto do AWSCodeCommit...'
+            }
+        stage ('Compilar da aplicação') 
+            steps {
+                echo 'Compilando a aplicação jar...'
+            }
+        stage ('Criar imagem docker')
+            steps {
+                echo 'Criando imagem docker...')
+            }
+        stage ('Subir imagem docker para o Docker Hub')
+            steps {
+                echo 'Subindo imagem docker...'
+            }
+        stage ('Baixar imagem docker no cluster')
+            steps {
+                echo 'Baixando imagem docker no cluster...'
+            }
+
+    }
+}

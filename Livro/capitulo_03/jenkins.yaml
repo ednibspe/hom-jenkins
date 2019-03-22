@@ -1,0 +1,87 @@
+plugins:
+  sites:
+  - id: "default"
+    url: "https://updates.jenkins.io/update-center.json"
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  disableRememberMe: false
+  mode: NORMAL
+  nodes:
+  - permanent:
+      labelString: "node-ubuntu"
+      launcher:
+        sSHLauncher:
+          credentialsId: "ssh-node-ubuntu"
+          host: "node-ubuntu.domain.com.br"
+          launchTimeoutSeconds: 210
+          maxNumRetries: 10
+          port: 22
+          retryWaitTime: 15
+      name: "node-ubuntu"
+      nodeDescription: "Este é um node slave do tipo GNU/Linux"
+      numExecutors: 1
+      remoteFS: "/home/jenkins"
+  numExecutors: 2
+  primaryView:
+    all:
+      name: "all"
+  quietPeriod: 5
+  scmCheckoutRetryCount: 0
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
+      users:
+      - id: "admin"
+      - id: "aecio"
+  slaveAgentPort: 50000
+  views:
+  - all:
+      name: "all"
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword:
+          description: "Acesso via SSH ao host node-ubuntu, usado como node slave\
+            \ do Jenkins"
+          id: "ssh-node-ubuntu"
+          password: "{AQAAABAAAAAQNYnVou1vBEE2knIZDbBFuoecjPE9gVxf9B87R7z9CPQ=}"
+          scope: GLOBAL
+          username: "jenkins"
+      - usernamePassword:
+          id: "acesso-jenkins"
+          password: "{AQAAABAAAAAQ1zkal9kMvPCmGder5DZnkDFQ6emsyrewUccJPWCHuvA=}"
+          scope: GLOBAL
+          username: "root"
+      - usernamePassword:
+          description: "Credencial de acesso ao Gogs"
+          id: "meu-acesso-git-teste"
+          password: "{AQAAABAAAAAQwWslEBAv9CbX5r8jMwYi/+WxOIKANNB2zzezQDE+tpo=}"
+          scope: GLOBAL
+          username: "root"
+      - usernamePassword:
+          description: "Credencial de acesso via SSH ao host ci-server"
+          id: "acesso-ssh-ci-server"
+          password: "{AQAAABAAAAAQgQCbC3+yCFdXyyc90C/Z87rv1lY9Xz5c/bsSCaT9qRA=}"
+          scope: GLOBAL
+          username: "teste"
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  jdk:
+    defaultProperties:
+    - installSource:
+        installers:
+        - jdkInstaller:
+            acceptLicense: false
